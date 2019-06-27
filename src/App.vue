@@ -1,17 +1,26 @@
 <template>
   <div id="app">
-      <router-view/>
+    <div class="navbar">
+      <p>disini navbar</p>
+    </div>
+    <router-view/>
   </div>
 </template>
 <script>
-export default {
-  
-}
+export default {};
 </script>
 
 <style>
+html,
+body,
+pre,
+code,
+kbd,
+samp {
+  font-family: "font-family you want to use";
+}
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "font-family you want to use";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
