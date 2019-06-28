@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <div class="navbar">
-      <p>disini navbar</p>
+    <div class="nav">
+      <br><br><br><br><br><br>
     </div>
     <router-view/>
   </div>
@@ -17,14 +17,16 @@ pre,
 code,
 kbd,
 samp {
-  font-family: "font-family you want to use";
+  font-family: 'Press Start 2P', cursive;
 }
 #app {
-  font-family: "font-family you want to use";
+  /* font-family: "font-family you want to use"; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  height: 700px;
+  background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url(https://data.whicdn.com/images/192837034/original.gif)
 }
 #nav {
   padding: 30px;
