@@ -75,6 +75,7 @@ import inputName from "../components/nameInput";
 import waitingRoom from "../components/waitingRoom";
 import addRoom from "../components/addRoom";
 import { constants } from "crypto";
+import db from '@/firestore/db.js'
 
 export default {
   name: "home",
@@ -126,23 +127,20 @@ export default {
       // this.joinRoom()
       console.log("ketrigger");
     },
-    createRoom() {
-      let username = localStorage.getItem("username");
-      db.collection("room")
-        .add({
-          name: this.roomName,
-          roomMater: username,
-          players: [
-            {
-              name: username,
-              position: 0
-            }
-          ]
-        })
-        .then((docRef) => {
-          console.log("berhasil");
+    createRoom () {
+      let username = localStorage.getItem('username')
+      db.collection("room").add({
+        name: this.roomName,
+        roomMaster: username,
+        players : [{
+          name: username,
+          position: 0,
+        }]
+      })
+      .then((docRef) => {
+        this.$router.push(`/lobby/${docRef.id}`)
+        console.log('berhasil')
           console.log("Document written with ID: ", docRef.id);
-          this.$router.push(`/lobby/${docRef.id}`)
         })
         .catch((error) =>{
           console.log("error");
