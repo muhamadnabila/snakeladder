@@ -13,7 +13,7 @@
       style="margin-left:29%;border:5px solid black;margin-top:5%"
       id="canvas"
       ref="canvas"
-      width="487"
+      width="483"
       height="540"
     ></canvas>
     <!-- <div style="margin-left:29%">
@@ -59,7 +59,7 @@ export default {
         this.hasWon = false
         this.players = temp;
               db.collection("room")
-        .doc("voVlUrRozsLKmyq7Fvna")
+        .doc(this.$route.params.id)
         .get()
         .then(doc => {
           let newRoom = {
@@ -69,7 +69,7 @@ export default {
           };
           return db
             .collection("room")
-            .doc("voVlUrRozsLKmyq7Fvna")
+            .doc(this.$route.params.id)
             .set(
               {
                 ...newRoom
@@ -143,7 +143,7 @@ export default {
       console.log(this.players, "wash");
 
       db.collection("room")
-        .doc("voVlUrRozsLKmyq7Fvna")
+        .doc(this.$route.params.id)
         .get()
         .then(doc => {
           let newRoom = {
@@ -153,7 +153,7 @@ export default {
           };
           return db
             .collection("room")
-            .doc("voVlUrRozsLKmyq7Fvna")
+            .doc(this.$route.params.id)
             .set(
               {
                 ...newRoom
@@ -268,9 +268,9 @@ export default {
   },
   // created() {},
   mounted() {
-    // console.log("voVlUrRozsLKmyq7Fvna");
+    // console.log(this.$route.params.id);
     db.collection("room")
-      .doc("voVlUrRozsLKmyq7Fvna")
+      .doc(this.$route.params.id)
       .onSnapshot(doc => {
         let arr = [
           "https://www.stickpng.com/assets/thumbs/584c69846e7d5809d2fa6366.png",

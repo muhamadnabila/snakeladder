@@ -45,6 +45,6 @@ export default {
 }
 </script>
 
-<style>
+<style scopped>
  canvas { border: 1px solid black; }
 </style>
