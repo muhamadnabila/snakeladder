@@ -1,10 +1,24 @@
 <template>
   <div>
-    <button v-if="button1" @click="rollDice" type="button">Roll Dice</button>
-  <div> {{ button1 }}</div>
-    <div id="board"></div>
 
-    <canvas id="canvas" ref="canvas" width="1000" height="1000"></canvas>
+    <h3 v-if="hasWon" style="color:green">{{ players[currentPlayerTurn].name }} has won!</h3>
+    <button v-if="button1 == true && hasWon == false" @click="rollDice" type="button">Roll Dice</button>
+    <button @click="playAgain" type="button" v-if="hasWon">Play Again!</button>
+        <div>{{ button1 }}</div>
+
+
+    <div style="margin-left:29%;margin-top:5%" id="board"></div>
+
+    <canvas
+      style="margin-left:29%;border:5px solid black;margin-top:5%"
+      id="canvas"
+      ref="canvas"
+      width="487"
+      height="540"
+    ></canvas>
+    <!-- <div style="margin-left:29%">
+    <img src="http://pluspng.com/img-png/png-snakes-and-ladders-free-online-snakes-and-ladders-383.png" style="position:absolute;width:150px;right:10px">
+    </div> -->
   </div>
 </template>
 <script>
@@ -36,6 +50,41 @@ export default {
   watch: {},
   components: {},
   methods: {
+    playAgain(){
+        let temp = [];
+        this.players.forEach(player => {
+          player.position = 0;
+          temp.push(player);
+        });
+        this.hasWon = false
+        this.players = temp;
+              db.collection("room")
+        .doc("voVlUrRozsLKmyq7Fvna")
+        .get()
+        .then(doc => {
+          let newRoom = {
+            name: doc.data().name,
+            players: this.players,
+            turn: this.currentPlayerTurn
+          };
+          return db
+            .collection("room")
+            .doc("voVlUrRozsLKmyq7Fvna")
+            .set(
+              {
+                ...newRoom
+              },
+              { merge: true }
+            );
+        })
+        .then(result => {
+          this.button1 = false;
+          this.createBoard();
+        })
+        .catch(function(error) {
+          console.error("Error updating document: ", error);
+        });
+    },
     rollDice() {
       // var sound = new Howl({
       //     src: './fly.mp3',
@@ -75,14 +124,9 @@ export default {
       //if the curretPlayer has the last position
       if (this.players[this.currentPlayerTurn].position > 89) {
         this.players[this.currentPlayerTurn].position = 89;
-        let temp = []
-        this.players.forEach((player) => {
-          player.position = 0
-          temp.push(player)
-        })
-        this.players = temp
+
         // console.log(this.players[this.currentPlayerTurn].name + " has won!");
-        this.hasWon = false; //hasWon is true = player wins
+        this.hasWon = true; //hasWon is true = player wins
       }
 
       // let diff = 0;
@@ -118,7 +162,7 @@ export default {
             );
         })
         .then(result => {
-          this.button1 = false
+          this.button1 = false;
           this.createBoard();
         })
         .catch(function(error) {
@@ -170,8 +214,9 @@ export default {
               //     index * 5}px; left:${square.x * this.boardSize +
               //     5}px;background-color:${player.color}"></div>`;
 
-              boardOnScreen += `<img src="${player.image}" style="top:${square.y *
-                this.boardSize +
+              boardOnScreen += `<img src="${
+                player.image
+              }" style="top:${square.y * this.boardSize +
                 5}px; left:${square.x * this.boardSize +
                 5}px;width:40px;height:40px;  position: absolute;"></img>`;
             }
@@ -218,6 +263,7 @@ export default {
       ctx.lineWidth = 15;
       ctx.strokeStyle = color;
       ctx.stroke();
+      
     }
   },
   // created() {},
@@ -226,10 +272,14 @@ export default {
     db.collection("room")
       .doc("voVlUrRozsLKmyq7Fvna")
       .onSnapshot(doc => {
-        let arr = ["https://www.stickpng.com/assets/thumbs/584c69846e7d5809d2fa6366.png", "https://www.stickpng.com/assets/thumbs/584c69746e7d5809d2fa6364.png", "http://pluspng.com/img-png/angry-birds-png-download-png-1024px-1024.png"]
+        let arr = [
+          "https://www.stickpng.com/assets/thumbs/584c69846e7d5809d2fa6366.png",
+          "https://www.stickpng.com/assets/thumbs/584c69746e7d5809d2fa6364.png",
+          "http://pluspng.com/img-png/angry-birds-png-download-png-1024px-1024.png"
+        ];
         // console.log(doc.data());
         // console.log(localStorage.username);
-        let temp = []
+        let temp = [];
         this.players = doc.data().players;
         this.players.forEach((player, index) => {
           // console.log('my index', index)
@@ -237,15 +287,18 @@ export default {
           // console.log(player.name, 'name')
           // console.log(localStorage.username, 'username')
           // console.log(doc.data().turn, 'turn')
-          console.log(this.button1, "___")
-          if (player.name == localStorage.username && doc.data().turn == index){
-            console.log('trueee')
-            this.button1 = true
-          } 
-          player.image = arr[index]
-          temp.push(player)
-        })
-        this.players = temp
+          console.log(this.button1, "___");
+          if (
+            player.name == localStorage.username &&
+            doc.data().turn == index
+          ) {
+            console.log("trueee");
+            this.button1 = true;
+          }
+          player.image = arr[index];
+          temp.push(player);
+        });
+        this.players = temp;
         // console.log(this.players)
         this.currentPlayerTurn = doc.data().turn;
         // console.log(this.players[0].position);
