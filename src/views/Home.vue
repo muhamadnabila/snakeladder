@@ -35,9 +35,7 @@
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 import db from '@/firestore/db.js'
-import { constants } from 'crypto';
 
 export default {
   name: 'home',
@@ -81,13 +79,14 @@ export default {
       let username = localStorage.getItem('username')
       db.collection("room").add({
         name: this.roomName,
-        roomMater: username,
+        roomMaster: username,
         players : [{
           name: username,
           position: 0,
         }]
       })
-      .then(function(docRef) {
+      .then((docRef) => {
+        this.$router.push(`/lobby/${docRef.id}`)
         console.log('berhasil')
           console.log("Document written with ID: ", docRef.id);
       })
