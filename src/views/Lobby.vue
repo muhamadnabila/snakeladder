@@ -1,19 +1,32 @@
 
 <template>
-  <div>
+  <div style="">
+    <br>
     <h1>Lobby</h1>
     <div class="nes-container with-title is-centered">
       <p class="title">Players</p>
+
       <Player
+      style="color:white"
         v-for="(player, index) in players"
         :key="index"
         :playerName="player"
         :playerIndex="index"
         class="col-3"
       ></Player>
+
     </div>
+    <br>
     <button @click="playGame" v-show="isMasterRoom" type="button" class="nes-btn is-primary">Play</button>
     <button v-show="!isMasterRoom" type="button" class="nes-btn is-disabled">Play</button>
+    <br>
+        <br>
+        <form @submit.prevent="sendMessage" action style="">
+      <div class="nes-field">
+        <label for="name_field">Your message</label>
+        <input v-model="message" type="text" id="name_field" class="nes-input">
+      </div>
+    </form>
     <div class="nes-container with-title chat">
       <p class="title">Chat Room</p>
       <section v-for="(text, index) in rooms.messages" :key="index" class="message-list">
@@ -25,12 +38,7 @@
         </section>
       </section>
     </div>
-    <form @submit.prevent="sendMessage" action>
-      <div class="nes-field">
-        <label for="name_field">Your message</label>
-        <input v-model="message" type="text" id="name_field" class="nes-input">
-      </div>
-    </form>
+
   </div>
 </template>
 
@@ -122,7 +130,8 @@ export default {
           let newRoom = {
             name: doc.data().name,
             players: doc.data().players,
-            status: "Play"
+            status: "Play",
+            turn: 0
           };
           return db
             .collection("room")
@@ -135,7 +144,7 @@ export default {
             );
         })
         .then(doc => {
-          this.$router.push(`/lobby/${idRoom}`)
+          this.$router.push(`/game/${idRoom}`)
         })
         .catch(err => {
           console.log(err);
@@ -146,6 +155,7 @@ export default {
 </script>
 
 <style scopped>
+
 .message-list {
   display: flex;
   justify-content: flex-start;
@@ -153,7 +163,7 @@ export default {
 .chat {
   display: flex;
   flex-direction: column;
-  height: 1000px;
+  height: 300px;
   overflow: scroll;
 }
 .nes-field {
@@ -185,7 +195,9 @@ h1 {
 .nes-container {
   display: flex;
   width: 90vw;
-  margin: 50px auto;
+  margin: 0px auto;
+  background-color: black;
+  opacity: 0.7
 }
 </style>
 

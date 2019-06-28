@@ -1,10 +1,12 @@
 <template>
   <div>
-
-    <h3 v-if="hasWon" style="color:green">{{ players[currentPlayerTurn].name }} has won!</h3>
-    <button v-if="button1 == true && hasWon == false" @click="rollDice" type="button">Roll Dice</button>
-    <button @click="playAgain" type="button" v-if="hasWon">Play Again!</button>
-        <div>{{ button1 }}</div>
+    <h3 v-if="hasWon" style="color:white;margin-top:0px"><br>{{ players[currentPlayerTurn].name }} has won!</h3>
+    <button style="margin-top:720px;" v-if="button1 == true && hasWon == false" @click="rollDice" type="button">Roll Dice</button>
+    <div style="display:flex;justify-content:center">
+      
+    <button style="margin-top:15px;margin-right:10px" @click="playAgain" type="button" v-if="hasWon">Play Again!</button>
+        <button style="margin-top:15px;" @click="exitGame" type="button" v-if="hasWon">Exit</button>
+</div>
 
 
     <div style="margin-left:29%;margin-top:5%" id="board"></div>
@@ -50,6 +52,10 @@ export default {
   watch: {},
   components: {},
   methods: {
+    exitGame(){
+      console.log('exitttt')
+                  this.$router.push("/home")
+    },
     playAgain(){
         let temp = [];
         this.players.forEach(player => {
@@ -78,8 +84,10 @@ export default {
             );
         })
         .then(result => {
+
           this.button1 = false;
           this.createBoard();
+
         })
         .catch(function(error) {
           console.error("Error updating document: ", error);
@@ -97,6 +105,7 @@ export default {
       }
 
       let roll = Math.floor(Math.random() * 5 + 1);
+
       // console.log(this.players[this.currentPlayerTurn].name + ", You rolled", roll);
       //keeping track of rolls
       //incrementing the position after the roll using the dice value
@@ -203,7 +212,6 @@ export default {
         this.board.forEach(row => {
           row.forEach(square => {
             if (player.position > 89) {
-              player.position = 89;
               this.hasWon = true;
               // console.log("wonnnnn");
             }

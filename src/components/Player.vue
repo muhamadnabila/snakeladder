@@ -1,8 +1,8 @@
 <template>
-<div>
+<div style="margin-top:-50px">
     <div class="col-3">
         <h3>{{ playerName }}</h3>
-        <img :src="[playerIcon]" alt="" srcset="">
+        <img :src="[playerIcon]" alt="" srcset="" style="height:180px;width:auto;margin-right:20px;border-radius:5px;border:4px solid black">
     </div>
 </div>
 </template>
