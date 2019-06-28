@@ -1,21 +1,32 @@
 <template>
   <div id="app">
-      <router-view/>
+    <div class="nav">
+      <br><br><br><br><br><br>
+    </div>
+    <router-view/>
   </div>
 </template>
 <script>
-export default {
-  
-}
+export default {};
 </script>
 
 <style>
+html,
+body,
+pre,
+code,
+kbd,
+samp {
+  font-family: 'Press Start 2P', cursive;
+}
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  /* font-family: "font-family you want to use"; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  height: 700px;
+  background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url(https://data.whicdn.com/images/192837034/original.gif)
 }
 #nav {
   padding: 30px;
