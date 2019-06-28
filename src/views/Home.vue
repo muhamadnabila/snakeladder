@@ -55,6 +55,7 @@ export default {
           let newRoom = {
             name: doc.data().name,
             players: doc.data().players,
+            turn: 0,
           }
           newRoom.players.push({
             name: localStorage.getItem('username'),
@@ -74,6 +75,7 @@ export default {
     login() {
       this.$store.commit('login',true)
       localStorage.setItem('username',this.username)
+      console.log(this.username)
     },
     createRoom () {
       let username = localStorage.getItem('username')
